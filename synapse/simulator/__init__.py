@@ -3,7 +3,7 @@ from synapse.server.entrypoint import ENTRY_DEFAULTS, main as server
 from synapse.simulator.nodes.broadband_source import BroadbandSource
 from synapse.simulator.nodes.optical_stimulation import OpticalStimulation
 from synapse.simulator.nodes.spike_source import SpikeSource
-from synapse.server.nodes.spectral_filter import SpectralFilter
+from synapse.simulator.nodes.spectral_filter import SpectralFilter
 
 SIMULATOR_NODE_OBJECT_MAP = {
     NodeType.kBroadbandSource: BroadbandSource,

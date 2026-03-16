@@ -58,11 +58,21 @@ class SpectralFilter(BaseNode):
             return
 
         if data.sample_rate != self.sample_rate:
-            self.b, self.a = get_filter_coefficients(
-                self.method, self.low_cutoff_hz, self.high_cutoff_hz, data.sample_rate
-            )
+            try:
+                self.b, self.a = get_filter_coefficients(
+                    self.method, self.low_cutoff_hz, self.high_cutoff_hz, data.sample_rate
+                )
+            except ValueError as e:
+                self.logger.error(
+                    f"Invalid filter config for sample rate {data.sample_rate} Hz "
+                    f"(nyquist={data.sample_rate / 2} Hz, "
+                    f"low={self.low_cutoff_hz} Hz, high={self.high_cutoff_hz} Hz): {e}"
+                )
+                return
             self.sample_rate = data.sample_rate
             self.channel_states.clear()
+            if hasattr(self, "zi"):
+                del self.zi
 
         await super().on_data_received(data)
 

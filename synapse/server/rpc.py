@@ -318,7 +318,7 @@ class SynapseServicer(SynapseDeviceServicer):
                 "Creating %s node(%d)" % (NodeType.Name(node.type), node.id)
             )
             node = self.node_object_map[node.type](node.id)
-            if node.type in [NodeType.kBroadbandSource]:
+            if hasattr(node, "configure_iface_ip"):
                 node.configure_iface_ip(self.iface_ip)
 
             status = node.configure(config)
